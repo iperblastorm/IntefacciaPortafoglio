@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import Card from './component/Card';
+import { getallrecord } from './api/funzPortafoglio';
+import { useEffect } from 'react';
+import MenuBar from './component/menuBar';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [cards, setCards] = useState([]);
+
+  const addCards = (newCard) => {
+    setCards([...cards, newCard]);
+  };
+
+  /**FUNZIONE CHE UNISCE LA RICEZIONE DI DATI CON LA PARTE GRAFICA,
+   * ASPETTA CHE LA RICEZIONE DAL DB SIA STATA EFFETTUATA E RESTITUISCE L'ARRAY*/
+  useEffect(() => {
+    async function fetchData() {
+      setCards(await getallrecord());
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <MenuBar></MenuBar>
+      <div className={"grid grid-cols-6 gap-5 overflow-auto"}>
+      {cards.map((elemento) => (
+        <Card
+        key={elemento.id}
+        servizio={elemento.servizio}
+        username={elemento.username}
+        password={elemento.password}>
+        </Card>
+      ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
