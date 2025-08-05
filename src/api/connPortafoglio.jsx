@@ -11,8 +11,8 @@ const connessionePortafoglio = axios.create({
 //ANCHE SE IN LOCALE NON HO PROBLEMI DI RETE LO IMPOSTO
 connessionePortafoglio.defaults.timeout = 2500;
 
-//GESTIONE ERRORI CON INTERCEPTOR
 
+//GESTIONE ERRORI CON INTERCEPTOR
 //GESTIONE IN RICHIESTA
 connessionePortafoglio.interceptors.request.use(
   function (config) {

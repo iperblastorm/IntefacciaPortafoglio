@@ -1,40 +1,22 @@
-import { useState } from 'react';
-import './App.css';
-import Card from './component/Card';
-import { getallrecord } from './api/funzPortafoglio';
-import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+
 import MenuBar from './component/menuBar';
 
+import './App.css';
+
+
+
 function App() {
-  const [cards, setCards] = useState([]);
-
-  const addCards = (newCard) => {
-    setCards([...cards, newCard]);
-  };
-
-  /**FUNZIONE CHE UNISCE LA RICEZIONE DI DATI CON LA PARTE GRAFICA,
-   * ASPETTA CHE LA RICEZIONE DAL DB SIA STATA EFFETTUATA E RESTITUISCE L'ARRAY*/
-  useEffect(() => {
-    async function fetchData() {
-      setCards(await getallrecord());
-    }
-    fetchData();
-  }, []);
 
   return (
-    <>
-      <MenuBar></MenuBar>
-      <div className={"grid grid-cols-6 gap-5 overflow-auto"}>
-      {cards.map((elemento) => (
-        <Card
-        key={elemento.id}
-        servizio={elemento.servizio}
-        username={elemento.username}
-        password={elemento.password}>
-        </Card>
-      ))}
+    <div className="p-4 bg-[url(./assets/sfondo.jpeg)] min-h-screen">
+      <div className="fixed left-0 h-full w-52 bg-zinc-800/75">
+          <MenuBar />
       </div>
-    </>
+      <div className="pl-56">
+        <Outlet />
+      </div>
+    </div>
   );
 }
 
